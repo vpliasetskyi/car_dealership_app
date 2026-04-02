@@ -1,0 +1,17 @@
+[build-system]
+
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "car-dealership"
+version = "1.0.0"
+description = "A CLI car dealership manager"
+
+readme = "README.md"
+requires-python = ">=3.10"
+
+
+
+[project.scripts]
+car-dealership = "car_dealership.main:main"
