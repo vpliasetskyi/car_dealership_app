@@ -1,3 +1,4 @@
+import csv
 from car import Car
 from database import (initialize_database, import_cars, add_car, get_all_cars,
                       get_car_by_id, update_car, delete_car, search_cars)
@@ -15,9 +16,10 @@ def show_menu():
     print(f"3. Update Car")
     print(f"4. Delete Car")
     print(f"5. Search Cars")
-    print(f"6. Exit")
+    print("6. Export to CSV") 
+    print("7. Exit")
     
-    choose_option = input("Choose options (1-6)): ")
+    choose_option = input("Choose options (1-7)): ")
     return choose_option
 
 
@@ -51,11 +53,11 @@ def view_all_flow():
         return
       
     print("Sort by:")
-    print("1. Default (ID)")
+    print("1. By ID(default)")
     print("2. Price: Low to High")
     print("3. Price: High to Low")
     print("4. Year: Newest First")
-    print("5. Alphabetical (Make)")
+    print("5. Alphabetical")
     
     sort_choice = input("Select sorting (1-5): ")
 
@@ -178,22 +180,41 @@ def option_selection():
         choice = show_menu()
 
         match choice:
-                case "1":
-                    add_car_flow()
-                case "2":
-                    view_all_flow()
-                case "3":
-                    update_car_flow()
-                case "4":
-                    delete_car_flow()
-                case "5":
-                    search_cars_flow()
-                case "6":
+                case "1": add_car_flow()
+                case "2": view_all_flow()
+                case "3": update_car_flow()
+                case "4": delete_car_flow()
+                case "5": search_cars_flow()
+                case "6": export_to_csv()    
+                case "7":
                     print("Exiting... Goodbye!")
                     break 
                 case _:
-                    print("\n[!] Invalid choice. Please pick 1-6.")
+                    print("\n Invalid option. Please pick 1-7.")
 
+
+def export_to_csv():
+    print("\n-----Export to CSV-----")
+    cars = get_all_cars()
+    
+    if not cars:
+        print("Nothing to export!")
+        return
+
+    filename = "car_inventory.csv"
+    try:
+        with open(filename, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            # Writing the header
+            writer.writerow(["ID", "Make", "Model", "Year", "Price", "Mileage"])
+            
+            # Writing car data
+            for car in cars:
+                writer.writerow([car.id, car.make, car.model, car.year, car.price, car.mileage])
+        
+        print(f"Success! Inventory was saved to {filename}")
+    except Exception as e:
+        print(f"Error, file not saved {e}")
 if __name__ == "__main__":
     main()
 
