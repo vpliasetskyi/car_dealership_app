@@ -43,17 +43,38 @@ def add_car_flow():
 #Create view cars function   
            
 def view_all_flow():
-      print("\n -----All Cars-----")
-      cars = get_all_cars()
+    print("\n -----All Cars-----")
+    cars = get_all_cars()
 
-      if not cars:
-            print("Database is empty!Please add at least one car")
-            return
+    if not cars:
+        print("Database is empty! Please add at least one car")
+        return
       
-      for car in cars:
-            print (car)
-            print ("-" * 40)
-      print(f"Total: {len(cars)} cars")
+    print("Sort by:")
+    print("1. Default (ID)")
+    print("2. Price: Low to High")
+    print("3. Price: High to Low")
+    print("4. Year: Newest First")
+    print("5. Alphabetical (Make)")
+    
+    sort_choice = input("Select sorting (1-5): ")
+
+    # add sorting by using lambda
+    if sort_choice == "2":
+        cars.sort(key=lambda x: x.price)
+    elif sort_choice == "3":
+        cars.sort(key=lambda x: x.price, reverse=True)
+    elif sort_choice == "4":
+        cars.sort(key=lambda x: x.year, reverse=True)
+    elif sort_choice == "5":
+        cars.sort(key=lambda x: x.make.lower())
+
+    
+    for car in cars:
+        print(car)
+        print("-" * 40)
+        
+    print(f"Total: {len(cars)} cars")
 
 # Create  update car  function 
 
