@@ -18,3 +18,4 @@ car-dealership
 - Update cars
 - Delete cars
 - Search cars
+- Export to CSV
